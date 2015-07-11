@@ -31,14 +31,23 @@
 
 package com.tavianator.boxperf;
 
-import org.openjdk.jmh.annotations.Benchmark;
+import java.util.concurrent.TimeUnit;
 
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.BenchmarkMode;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.OutputTimeUnit;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.State;
+
+@State(Scope.Benchmark)
 public class MyBenchmark {
+    private Levenshtein<String, Character> lev = new Levenshtein<>(StringAsList::new);
 
     @Benchmark
-    public void testMethod() {
-        // This is a demo/sample template for building your JMH benchmarks. Edit as needed.
-        // Put your benchmark code here.
+    @BenchmarkMode(Mode.AverageTime)
+    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    public int timeLevenshtein() {
+        return lev.distance("autoboxing is fast", "autoboxing is slow");
     }
-
 }
